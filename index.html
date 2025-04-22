@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To-Do List</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+        form { margin: 20px 0; }
+        input, select { padding: 8px; margin: 5px 0; width: 100%; }
+        button { padding: 8px 15px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+        button:hover { background: #45a049; }
+    </style>
+</head>
+<body>
+    <h1>To-Do List</h1>
+    
+    {% if todos %}
+    <table>
+        <thead>
+            <tr>
+                <th>Task</th>
+                <th>Email</th>
+                <th>Priority</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for todo in todos %}
+            <tr>
+                <td>{{ todo.task }}</td>
+                <td>{{ todo.email }}</td>
+                <td>{{ todo.priority }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No tasks yet! Add one below.</p>
+    {% endif %}
+    
+    <h2>Add New Task</h2>
+    <form action="/submit" method="post">
+        <div>
+            <label for="task">Task:</label>
+            <input type="text" id="task" name="task" required>
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div>
+            <label for="priority">Priority:</label>
+            <select id="priority" name="priority" required>
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+            </select>
+        </div>
+        <button type="submit">Add Task</button>
+    </form>
+    
+    <form action="/save" method="post">
+        <button type="submit">Save Tasks</button>
+    </form>
+    
+    {% if todos %}
+    <form action="/clear" method="post">
+        <button type="submit">Clear All Tasks</button>
+    </form>
+    {% endif %}
+</body>
+</html>
